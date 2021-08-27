@@ -8,5 +8,8 @@ defmodule TTT.TurnBucketTest do
 
   test "stores values by key", %{bucket: bucket} do
     assert TTT.TurnBucket.get(bucket, "player 1") == nil
+
+    TTT.TurnBucket.put(bucket, "player 1", %{x: 0, y: 0})
+    assert TTT.TurnBucket.get(bucket, "player 1") == %{x: 0, y: 0}
   end
 end
