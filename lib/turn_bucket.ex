@@ -1,5 +1,5 @@
 defmodule TTT.TurnBucket do
-  use Agent
+  use Agent, restart: :temporary
 
   @doc """
   Starts a new turn bucket

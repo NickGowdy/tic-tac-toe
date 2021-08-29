@@ -3,6 +3,6 @@ defmodule TTT do
 
   @impl true
   def start(_type, _args) do
-    TTT.GameSupervisor.start_link(name: TTT.GameSupervisor)
+    TTT.Supervisor.start_link(name: TTT.Supervisor)
   end
 end

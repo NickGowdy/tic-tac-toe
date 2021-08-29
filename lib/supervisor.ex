@@ -1,4 +1,4 @@
-defmodule TTT.GameSupervisor do
+defmodule TTT.Supervisor do
   use Supervisor
 
   def start_link(opts) do
@@ -8,6 +8,7 @@ defmodule TTT.GameSupervisor do
   @impl true
   def init(:ok) do
     children = [
+      {DynamicSupervisor, name: TTT.BucketSupervisor, strategy: :one_for_one},
       {TTT.TurnRegistry, name: TTT.TurnRegistry}
     ]
 

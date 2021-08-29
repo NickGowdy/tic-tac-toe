@@ -12,4 +12,8 @@ defmodule TTT.TurnBucketTest do
     TTT.TurnBucket.put(bucket, "player 1", %{x: 0, y: 0})
     assert TTT.TurnBucket.get(bucket, "player 1") == %{x: 0, y: 0}
   end
+
+  test "are temporary workers" do
+    assert Supervisor.child_spec(TTT.TurnBucket, []).restart == :temporary
+  end
 end

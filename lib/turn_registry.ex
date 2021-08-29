@@ -47,12 +47,12 @@ defmodule TTT.TurnRegistry do
   @impl true
   def handle_cast({:create, name}, {names, refs}) do
     if Map.has_key?(names, name) do
-      {:noreply, names}
+      {:noreply, {names, refs}}
     else
-      {:ok, bucket} = TTT.TurnBucket.start_link([])
-      ref = Process.monitor(bucket)
+      {:ok, pid} = DynamicSupervisor.start_child(TTT.BucketSupervisor, TTT.TurnBucket)
+      ref = Process.monitor(pid)
       refs = Map.put(refs, ref, name)
-      names = Map.put(names, name, bucket)
+      names = Map.put(names, name, pid)
       {:noreply, {names, refs}}
     end
   end
