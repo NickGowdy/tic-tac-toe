@@ -1,18 +1,8 @@
 defmodule TTT do
-  @moduledoc """
-  Documentation for `TTT`.
-  """
+  use Application
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> TTT.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  @impl true
+  def start(_type, _args) do
+    TTT.GameSupervisor.start_link(name: TTT.GameSupervisor)
   end
 end
