@@ -1,6 +1,8 @@
 defmodule TicTacToe.GameRegistry do
   use GenServer
 
+  TicTacToe.GridFactory
+
   # CLIENT API
 
   @doc """
