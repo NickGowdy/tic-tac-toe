@@ -1,4 +1,4 @@
-defmodule TTT.MixProject do
+defmodule TicTacToe.MixProject do
   use Mix.Project
 
   def project do
@@ -15,7 +15,7 @@ defmodule TTT.MixProject do
   def application do
     [
       extra_applications: [:logger],
-      mod: {TTT, []}
+      mod: {TicTacToe, []}
     ]
   end
 

@@ -1,4 +1,4 @@
-defmodule TTT.TurnBucket do
+defmodule TicTacToe.TurnBucket do
   use Agent, restart: :temporary
 
   @doc """

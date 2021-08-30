@@ -1,4 +1,4 @@
-defmodule TTT.TurnRegistry do
+defmodule TicTacToe.GameRegistry do
   use GenServer
 
   # CLIENT API
@@ -49,7 +49,7 @@ defmodule TTT.TurnRegistry do
     if Map.has_key?(names, name) do
       {:noreply, {names, refs}}
     else
-      {:ok, pid} = DynamicSupervisor.start_child(TTT.BucketSupervisor, TTT.TurnBucket)
+      {:ok, pid} = DynamicSupervisor.start_child(TicTacToe.BucketSupervisor, TicTacToe.TurnBucket)
       ref = Process.monitor(pid)
       refs = Map.put(refs, ref, name)
       names = Map.put(names, name, pid)
