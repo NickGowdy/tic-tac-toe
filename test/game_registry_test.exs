@@ -9,17 +9,17 @@ defmodule TicTacToe.GameRegistryTest do
   test "spawns turn bucket", %{game_registry: game_registry} do
     assert TicTacToe.GameRegistry.lookup(game_registry, "player 1") == :error
 
-    TicTacToe.GameRegistry.create(game_registry, "player 1")
-    assert {:ok, bucket} = TicTacToe.GameRegistry.lookup(game_registry, "player 1")
+    # TicTacToe.GameRegistry.create(game_registry, "player 1")
+    # assert {:ok, bucket} = TicTacToe.GameRegistry.lookup(game_registry, "player 1")
 
-    TicTacToe.Bucket.put(bucket, "player 1", %{x: 0, y: 0})
-    assert TicTacToe.Bucket.get(bucket, "player 1") == %{x: 0, y: 0}
+    # TicTacToe.Bucket.put(bucket, "player 1", %{x: 0, y: 0})
+    # assert TicTacToe.Bucket.get(bucket, "player 1") == %{x: 0, y: 0}
   end
 
-  test "removes turn buckets on exit", %{game_registry: game_registry} do
-    TicTacToe.GameRegistry.create(game_registry, "player 1")
-    {:ok, bucket} = TicTacToe.GameRegistry.lookup(game_registry, "player 1")
-    Agent.stop(bucket)
-    assert TicTacToe.GameRegistry.lookup(game_registry, "player 1") == :error
-  end
+  # test "removes turn buckets on exit", %{game_registry: game_registry} do
+  #   TicTacToe.GameRegistry.create(game_registry, "player 1")
+  #   {:ok, bucket} = TicTacToe.GameRegistry.lookup(game_registry, "player 1")
+  #   Agent.stop(bucket)
+  #   assert TicTacToe.GameRegistry.lookup(game_registry, "player 1") == :error
+  # end
 end

@@ -8,7 +8,7 @@ defmodule TicTacToe.GridFactory do
 
     Enum.flat_map(dimensions, fn x ->
       Enum.map(dimensions, fn y ->
-        %{x: x, y: y, player: 0}
+        %{x: x, y: y, player: "player 1"}
       end)
     end)
   end
