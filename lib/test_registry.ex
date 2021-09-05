@@ -12,14 +12,14 @@ defmodule TestRegistry do
 
   @impl true
   def handle_cast({:take_turn, %{player: player, x: x, y: y}}, state) do
-    Agent.update(state, &Map.put(&1, player, %{player: player, x: x, y: y}))
-    {:noreply, state}
+    new_state = update_state(state, player, x, y)
+    {:noreply, new_state}
   end
 
   @impl true
-  def handle_call({:get_turn, player}, from, grid) do
-    player_positions = Enum.filter(grid, fn x -> x.player == player end)
-    {:reply, from, player_positions}
+  def handle_call({:get_turn, player}, _from, state) do
+    IO.inspect(state)
+    {:reply, Enum.filter(state, fn x -> x.player == player end), state}
   end
 
   # Client
@@ -36,15 +36,13 @@ defmodule TestRegistry do
     GenServer.cast(__MODULE__, {:take_turn, %{player: player, x: x, y: y}})
   end
 
-  # defp get_position(position = %{player: player, x: _, y: _}, player) when position.player === player, do: position
-
-  defp turn(player, x, y) do
-    case negative_num_check(x) || negative_num_check(y) do
-      true -> {:error, "cant be negative number"}
-      false -> fn -> {:ok} end
-    end
+  defp update_state(state, player, x, y) do
+    Enum.map(state, fn e ->
+      if e.x == x && e.y == y do
+        %{e | player: player}
+      else
+        e
+      end
+    end)
   end
-
-  def negative_num_check(num) when num < 0, do: true
-
 end
