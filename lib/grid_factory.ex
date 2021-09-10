@@ -1,4 +1,7 @@
 defmodule TicTacToe.GridFactory do
+  alias TicTacToe.Entities.Grid
+
+
   @spec build :: list
   @doc """
   Builds a 3x3 grid for Tic Tac Toe
@@ -8,7 +11,7 @@ defmodule TicTacToe.GridFactory do
 
     Enum.flat_map(dimensions, fn x ->
       Enum.map(dimensions, fn y ->
-        %{x: x, y: y, player: nil}
+        %Grid{x: x, y: y, player: nil}
       end)
     end)
   end
