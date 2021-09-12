@@ -3,7 +3,6 @@ defmodule TestRegistry do
   alias TicTacToe.{GridFactory, Entities.Grid}
 
   # Server
-
   @impl true
   def init(:ok) do
     grid = GridFactory.build()
@@ -18,12 +17,10 @@ defmodule TestRegistry do
 
   @impl true
   def handle_call({:get_turn, player}, _from, state) do
-    IO.inspect(state)
     {:reply, Enum.filter(state, fn x -> x.player == player end), state}
   end
 
   # Client
-
   def start_link(opts) do
     GenServer.start_link(__MODULE__, :ok, opts)
   end
@@ -32,10 +29,11 @@ defmodule TestRegistry do
     GenServer.call(server, {:get_turn, player})
   end
 
-  def take_turn(player, x, y) do
-    GenServer.cast(__MODULE__, {:take_turn, %Grid{player: player, x: x, y: y}})
+  def take_turn(server, %Grid{} = grid) do
+    GenServer.cast(server, {:take_turn, grid})
   end
 
+  # Helper functions
   defp update_state(state, grid = %Grid{}) do
     Enum.map(state, fn e ->
       if e.x == grid.x && e.y == grid.y do
