@@ -1,6 +1,5 @@
 defmodule TicTacToe.GridFactory do
-  alias TicTacToe.Entities.Grid
-
+  alias TicTacToe.Entities.Square
 
   @spec build :: list
   @doc """
@@ -11,7 +10,7 @@ defmodule TicTacToe.GridFactory do
 
     Enum.flat_map(dimensions, fn x ->
       Enum.map(dimensions, fn y ->
-        %Grid{x: x, y: y, player: nil}
+        %Square{x: x, y: y, player: nil}
       end)
     end)
   end

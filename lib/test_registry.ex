@@ -1,6 +1,6 @@
 defmodule TestRegistry do
   use GenServer
-  alias TicTacToe.{GridFactory, Entities.Grid}
+  alias TicTacToe.{GridFactory, Entities.Square}
 
   # Server
   @impl true
@@ -10,8 +10,8 @@ defmodule TestRegistry do
   end
 
   @impl true
-  def handle_cast({:take_turn, grid = %Grid{}}, state) do
-    new_state = update_state(state, grid)
+  def handle_cast({:take_turn, square = %Square{}}, state) do
+    new_state = update_state(state, square)
     {:noreply, new_state}
   end
 
@@ -29,15 +29,15 @@ defmodule TestRegistry do
     GenServer.call(server, {:get_turn, player})
   end
 
-  def take_turn(server, %Grid{} = grid) do
-    GenServer.cast(server, {:take_turn, grid})
+  def take_turn(server, %Square{} = square) do
+    GenServer.cast(server, {:take_turn, square})
   end
 
   # Helper functions
-  defp update_state(state, grid = %Grid{}) do
+  defp update_state(state, square = %Square{}) do
     Enum.map(state, fn e ->
-      if e.x == grid.x && e.y == grid.y do
-        %{e | player: grid.player}
+      if e.x == square.x && e.y == square.y do
+        %{e | player: square.player}
       else
         e
       end
