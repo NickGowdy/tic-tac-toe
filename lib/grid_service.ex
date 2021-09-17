@@ -1,62 +1,52 @@
 defmodule TicTacToe.GridService do
-
   alias TicTacToe.Entities.Square
 
   @spec is_valid_player(number) :: true
-  def is_valid_player(player) when player == 1 do true end
-  def is_valid_player(player) when player == 2 do true end
+  def is_valid_player(player) when player == 1 do
+    true
+  end
 
-  def is_winner([%Square{}] = grid, player) do
+  def is_valid_player(player) when player == 2 do
+    true
+  end
 
+  def is_winner([%Square{} | _rest] = grid, player) do
     filtered_grid = Enum.filter(grid, fn square -> square.player == player end)
 
     case Enum.count(filtered_grid) < 3 do
-      true -> false
+      true ->
+        false
+
       false ->
-      #    is_winner =
-      # grid
-      #   |> check_vertical(player)
-      #   |> check_horizontal()
-      #   |> check_diagonal()
+        nil
 
-         end
+        maybe_is_winner =
+          filtered_grid
+          |> check_vertical()
 
-
-
+        # |> check_horizontal()
+        # |> check_diagonal()
+    end
   end
 
-  defp check_vertical([%Square{}] = grid, player) do
-    # Get dimensions for x vertice
-    dimensions = Enum.to_list(0..2)
+  defp check_vertical([%Square{} | _rest] = grid) do
+    maybe_is_winner =
+      Enum.to_list(0..2)
+      |> Enum.map(fn d -> Enum.count(grid, fn square -> square.x === d end) end)
+      |> Enum.any?(fn val -> val === 3 end)
+      |> Enum.empty?()
 
-    Enum.each(dimensions, fn dimension ->
-      #Split grid into list of 3 eg [[], [], []]
-      filtered_grid = Enum.split_with(grid, fn square ->
-        square.x == dimension
-      end)
+    IO.inspect(maybe_is_winner)
 
-      IO.inspect(filtered_grid)
-
-      end)
+    maybe_is_winner
   end
 
-  defp check_horizontal([%Square{}] = grid) do
- # Get dimensions for y vertice
- dimensions = Enum.to_list(0..2)
+  # defp check_horizontal([%Square{}] = grid) do
+  #   Enum.to_list(0..2)
+  #       |> Enum.map(fn d -> Enum.count(grid, fn square -> square.y === d end) end)
+  #       |> Enum.any?(fn val -> val == 3 end)
+  # end
 
- Enum.each(dimensions, fn dimension ->
-   #Split grid into list of 3 eg [[], [], []]
-   filtered_grid = Enum.split_with(grid, fn square ->
-     square.y == dimension
-   end)
-
-   IO.inspect(filtered_grid)
-
-   end)
-  end
-
-  defp check_diagonal([%Square{}] = grid) do
-
-  end
-
+  # defp check_diagonal([%Square{}] = grid) do
+  # end
 end
