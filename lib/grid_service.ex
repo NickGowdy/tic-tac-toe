@@ -18,9 +18,6 @@ defmodule TicTacToe.GridService do
         false
 
       false ->
-        nil
-
-        maybe_is_winner =
           filtered_grid
           |> check_vertical()
 
@@ -30,15 +27,9 @@ defmodule TicTacToe.GridService do
   end
 
   defp check_vertical([%Square{} | _rest] = grid) do
-    maybe_is_winner =
       Enum.to_list(0..2)
       |> Enum.map(fn d -> Enum.count(grid, fn square -> square.x === d end) end)
       |> Enum.any?(fn val -> val === 3 end)
-      |> Enum.empty?()
-
-    IO.inspect(maybe_is_winner)
-
-    maybe_is_winner
   end
 
   # defp check_horizontal([%Square{}] = grid) do
