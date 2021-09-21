@@ -39,8 +39,11 @@ defmodule TicTacToe.GridService do
     {_, selected_squares} =
       dimensions
       |> Enum.map_reduce(0, fn _, acc ->
-        maybe_square = Enum.find(grid, fn square -> square.x == acc end) != nil
-        {maybe_square, acc + 1}
+        maybe_square = Enum.find(grid, fn square -> square.x == acc and square.y == acc end) != nil
+        case maybe_square do
+        true ->  {maybe_square, acc + 1}
+        false -> {nil, acc}
+        end
       end)
 
     maybe_diagonal_winner = selected_squares === 3
