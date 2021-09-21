@@ -1,4 +1,4 @@
-defmodule TicTacToe.GridService do
+defmodule TicTacToe.GameEngine do
   alias TicTacToe.Entities.Square
 
   @spec is_valid_player(number) :: true

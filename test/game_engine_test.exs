@@ -1,7 +1,7 @@
 defmodule GridServiceTest do
   use ExUnit.Case, async: true
 
-  alias TicTacToe.{GridFactory, GridService}
+  alias TicTacToe.{GridFactory, GameEngine}
   alias TicTacToe.Entities.Square
 
   describe "Logic to confirm game logic is working for all possible combinations" do
@@ -12,7 +12,7 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 1, x: 0, y: 2}
       ]
 
-      result = GridService.is_winner(grid, 1)
+      result = GameEngine.is_winner(grid, 1)
       assert result == true
     end
 
@@ -22,7 +22,7 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 1, x: 0, y: 1}
       ]
 
-      result = GridService.is_winner(grid, 1)
+      result = GameEngine.is_winner(grid, 1)
       assert result == false
     end
 
@@ -33,7 +33,7 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 1, x: 2, y: 0}
       ]
 
-      result = GridService.is_winner(grid, 1)
+      result = GameEngine.is_winner(grid, 1)
       assert result == true
     end
 
@@ -43,7 +43,7 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 1, x: 1, y: 0}
       ]
 
-      result = GridService.is_winner(grid, 1)
+      result = GameEngine.is_winner(grid, 1)
       assert result == false
     end
 
@@ -54,7 +54,7 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 1, x: 2, y: 2}
       ]
 
-      result = GridService.is_winner(grid, 1)
+      result = GameEngine.is_winner(grid, 1)
       assert result == true
     end
 
@@ -65,7 +65,7 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 1, x: 2, y: 2}
       ]
 
-      result = GridService.is_winner(grid, 1)
+      result = GameEngine.is_winner(grid, 1)
       assert result == false
     end
 
@@ -76,7 +76,7 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 1, x: 2, y: 0}
       ]
 
-      result = GridService.is_winner(grid, 1)
+      result = GameEngine.is_winner(grid, 1)
       assert result == true
     end
   end
