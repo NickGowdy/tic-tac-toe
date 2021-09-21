@@ -87,11 +87,10 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 1, x: 0, y: 2},
         %TicTacToe.Entities.Square{player: 1, x: 1, y: 2},
         %TicTacToe.Entities.Square{player: 1, x: 2, y: 1},
-
         %TicTacToe.Entities.Square{player: 2, x: 0, y: 1},
         %TicTacToe.Entities.Square{player: 2, x: 1, y: 0},
         %TicTacToe.Entities.Square{player: 2, x: 2, y: 2},
-        %TicTacToe.Entities.Square{player: 2, x: 2, y: 0},
+        %TicTacToe.Entities.Square{player: 2, x: 2, y: 0}
       ]
 
       result_player_one = GameEngine.is_winner(grid, 1)

@@ -38,7 +38,6 @@ defmodule TicTacToe.GameEngine do
       end)
       |> Enum.any?(fn match -> match == true end)
 
-
     maybe_horizontal_winner =
       dimensions
       |> Enum.map(fn d ->
