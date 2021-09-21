@@ -36,20 +36,42 @@ defmodule TicTacToe.GridService do
       |> Enum.map(fn d -> Enum.count(grid, fn square -> square.y === d end) end)
       |> Enum.any?(fn val -> val === 3 end)
 
+    maybe_diagonal_winner_one = maybe_diagonal_winner_one(dimensions, grid)
+
+    maybe_diagonal_winner_two = maybe_diagonal_winner_two(dimensions, grid)
+
+    maybe_vertical_winner == true or maybe_horizontal_winner == true or
+      maybe_diagonal_winner_one == true or maybe_diagonal_winner_two == true
+  end
+
+  defp maybe_diagonal_winner_one(dimensions, grid) do
     {_, selected_squares} =
       dimensions
       |> Enum.map_reduce(0, fn _, acc ->
-        maybe_square = Enum.find(grid, fn square -> square.x == acc and square.y == acc end) != nil
+        maybe_square =
+          Enum.find(grid, fn square -> square.x == acc and square.y == acc end) != nil
+
         case maybe_square do
-        true ->  {maybe_square, acc + 1}
-        false -> {nil, acc}
+          true -> {maybe_square, acc + 1}
+          false -> {maybe_square, acc}
         end
       end)
 
-    maybe_diagonal_winner = selected_squares === 3
-
-    maybe_vertical_winner == true or maybe_horizontal_winner == true or
-      maybe_diagonal_winner == true
+    selected_squares === 3
   end
 
+  defp maybe_diagonal_winner_two(dimensions, grid) do
+    {_, selected_squares} =
+      dimensions
+      |> Enum.map_reduce(2, fn _, acc ->
+        maybe_square = Enum.find(grid, fn square -> square.y == acc end) != nil
+
+        case maybe_square do
+          true -> {maybe_square, acc - 1}
+          false -> {maybe_square, acc}
+        end
+      end)
+
+    selected_squares === -1
+  end
 end

@@ -50,7 +50,7 @@ defmodule GridServiceTest do
     grid = [
       %TicTacToe.Entities.Square{player: 1, x: 0, y: 0},
       %TicTacToe.Entities.Square{player: 1, x: 1, y: 1},
-      %TicTacToe.Entities.Square{player: 1, x: 2, y: 2},
+      %TicTacToe.Entities.Square{player: 1, x: 2, y: 2}
     ]
 
     result = GridService.is_winner(grid, 1)
@@ -61,10 +61,21 @@ defmodule GridServiceTest do
     grid = [
       %TicTacToe.Entities.Square{player: 1, x: 0, y: 0},
       %TicTacToe.Entities.Square{player: 1, x: 1, y: 2},
-      %TicTacToe.Entities.Square{player: 1, x: 2, y: 2},
+      %TicTacToe.Entities.Square{player: 1, x: 2, y: 2}
     ]
 
     result = GridService.is_winner(grid, 1)
     assert result == false
+  end
+
+  test "Return true when complete combination in diagonal 2" do
+    grid = [
+      %TicTacToe.Entities.Square{player: 1, x: 0, y: 2},
+      %TicTacToe.Entities.Square{player: 1, x: 1, y: 1},
+      %TicTacToe.Entities.Square{player: 1, x: 2, y: 0}
+    ]
+
+    result = GridService.is_winner(grid, 1)
+    assert result == true
   end
 end
