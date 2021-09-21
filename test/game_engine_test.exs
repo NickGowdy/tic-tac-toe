@@ -79,5 +79,21 @@ defmodule GridServiceTest do
       result = GameEngine.is_winner(grid, 1)
       assert result == true
     end
+
+    test "Return false as there is no winner" do
+      grid = [
+        %TicTacToe.Entities.Square{player: 1, x: 0, y: 2},
+        %TicTacToe.Entities.Square{player: 1, x: 1, y: 1},
+        %TicTacToe.Entities.Square{player: 1, x: 1, y: 2},
+        %TicTacToe.Entities.Square{player: 1, x: 0, y: 1},
+        %TicTacToe.Entities.Square{player: 1, x: 2, y: 1},
+        # %TicTacToe.Entities.Square{player: 2, x: 1, y: 2},
+        # %TicTacToe.Entities.Square{player: 2, x: 2, y: 0},
+        # %TicTacToe.Entities.Square{player: 2, x: 2, y: 1},
+      ]
+
+      result = GameEngine.is_winner(grid, 1)
+      assert result == false
+    end
   end
 end

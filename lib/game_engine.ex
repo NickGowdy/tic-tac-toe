@@ -40,6 +40,9 @@ defmodule TicTacToe.GameEngine do
 
     maybe_diagonal_winner_two = maybe_diagonal_winner_two(dimensions, grid)
 
+    IO.inspect(maybe_vertical_winner)
+    IO.inspect(maybe_horizontal_winner)
+
     maybe_vertical_winner == true or maybe_horizontal_winner == true or
       maybe_diagonal_winner_one == true or maybe_diagonal_winner_two == true
   end
