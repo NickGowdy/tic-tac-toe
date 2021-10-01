@@ -1,25 +1,19 @@
 defmodule TicTacToe.GameRegistryTest do
   use ExUnit.Case, async: true
 
+  alias TicTacToe.Entities.Square
+
   setup do
-    game_registry = start_supervised!(TicTacToe.GameRegistry)
-    %{game_registry: game_registry}
+    %{pid: start_supervised!(TicTacToe.GameRegistry)}
   end
 
-  test "spawns turn bucket", %{game_registry: game_registry} do
-    assert TicTacToe.GameRegistry.lookup(game_registry, "player 1") == :error
+  test "Play game of Tic Tac Toe", %{pid: pid} do
+    TicTacToe.GameRegistry.take_turn(pid, %Square{x: 0, y: 0, player: 1})
+    TicTacToe.GameRegistry.take_turn(pid, %Square{x: 1, y: 1, player: 2})
+    TicTacToe.GameRegistry.take_turn(pid, %Square{x: 1, y: 0, player: 1})
+    TicTacToe.GameRegistry.take_turn(pid, %Square{x: 2, y: 2, player: 1})
+    TicTacToe.GameRegistry.take_turn(pid, %Square{x: 2, y: 0, player: 1})
 
-    # TicTacToe.GameRegistry.create(game_registry, "player 1")
-    # assert {:ok, bucket} = TicTacToe.GameRegistry.lookup(game_registry, "player 1")
-
-    # TicTacToe.Bucket.put(bucket, "player 1", %{x: 0, y: 0})
-    # assert TicTacToe.Bucket.get(bucket, "player 1") == %{x: 0, y: 0}
+    assert TicTacToe.GameRegistry.maybe_winner(pid, 1) === true
   end
-
-  # test "removes turn buckets on exit", %{game_registry: game_registry} do
-  #   TicTacToe.GameRegistry.create(game_registry, "player 1")
-  #   {:ok, bucket} = TicTacToe.GameRegistry.lookup(game_registry, "player 1")
-  #   Agent.stop(bucket)
-  #   assert TicTacToe.GameRegistry.lookup(game_registry, "player 1") == :error
-  # end
 end

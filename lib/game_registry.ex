@@ -20,11 +20,6 @@ defmodule TicTacToe.GameRegistry do
     {:reply, Enum.filter(state, fn x -> x.player == player end), state}
   end
 
-  @impl true
-  def handle_call({:maybe_winner, player}, _from, state) do
-    {:reply, GameEngine.is_winner(state, player), state}
-  end
-
   # Client
   def start_link(opts = []) do
     GenServer.start_link(__MODULE__, :ok, opts)
@@ -34,14 +29,13 @@ defmodule TicTacToe.GameRegistry do
     GenServer.call(pid, {:get_turn, player})
   end
 
-  @spec take_turn(atom | pid | {atom, any} | {:via, atom, any}, TicTacToe.Entities.Square.t()) ::
-          :ok
   def take_turn(pid, %Square{} = square) do
     GenServer.cast(pid, {:take_turn, square})
   end
 
   def maybe_winner(pid, player) do
-    GenServer.cast(pid, {:maybe_winner, player})
+    GenServer.call(pid, {:get_turn, player})
+    |> GameEngine.is_winner(player)
   end
 
   # Helper functions
