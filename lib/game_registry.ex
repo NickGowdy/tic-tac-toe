@@ -1,73 +1,57 @@
 defmodule TicTacToe.GameRegistry do
   use GenServer
+  alias TicTacToe.{GridFactory, Entities.Square, GameEngine}
 
-  TicTacToe.GridFactory
+  # Server
+  @impl true
+  def init(:ok) do
+    grid = GridFactory.build()
+    {:ok, grid}
+  end
 
-  # CLIENT API
+  @impl true
+  def handle_cast({:take_turn, square = %Square{}}, state) do
+    new_state = update_state(state, square)
+    {:noreply, new_state}
+  end
 
-  @doc """
-  Starts the registry
-  """
-  def start_link(opts) do
+  @impl true
+  def handle_call({:get_turn, player}, _from, state) do
+    {:reply, Enum.filter(state, fn x -> x.player == player end), state}
+  end
+
+  @impl true
+  def handle_call({:maybe_winner, player}, _from, state) do
+    {:reply, GameEngine.is_winner(state, player), state}
+  end
+
+  # Client
+  def start_link(opts = []) do
     GenServer.start_link(__MODULE__, :ok, opts)
   end
 
-  @doc """
-  Looks up the bucket pid for `name` stored in `server`.
-
-  Returns `:{ok, pid}` if the bucket exists, `:error`
-  otherwise
-  """
-  def lookup(server, name) do
-    GenServer.call(server, {:lookup, name})
+  def get_turn(pid, player) do
+    GenServer.call(pid, {:get_turn, player})
   end
 
-  @doc """
-  Ensures there is a bucket associated with the given `name`
-  in `server`
-  """
-  def create(server, name) do
-    GenServer.cast(server, {:create, name})
+  @spec take_turn(atom | pid | {atom, any} | {:via, atom, any}, TicTacToe.Entities.Square.t()) ::
+          :ok
+  def take_turn(pid, %Square{} = square) do
+    GenServer.cast(pid, {:take_turn, square})
   end
 
-  # Server
-
-  @impl true
-  def init(:ok) do
-    names = %{}
-    refs = %{}
-    {:ok, {names, refs}}
+  def maybe_winner(pid, player) do
+    GenServer.cast(pid, {:maybe_winner, player})
   end
 
-  @impl true
-  def handle_call({:lookup, name}, _from, state) do
-    {names, _} = state
-    {:reply, Map.fetch(names, name), state}
-  end
-
-  # Link bucket if not found
-  @impl true
-  def handle_cast({:create, name}, {names, refs}) do
-    if Map.has_key?(names, name) do
-      {:noreply, {names, refs}}
-    else
-      {:ok, pid} = DynamicSupervisor.start_child(TicTacToe.BucketSupervisor, TicTacToe.Bucket)
-      ref = Process.monitor(pid)
-      refs = Map.put(refs, ref, name)
-      names = Map.put(names, name, pid)
-      {:noreply, {names, refs}}
-    end
-  end
-
-  @impl true
-  def handle_info({:DOWN, ref, :process, _pid, _reason}, {names, refs}) do
-    {name, refs} = Map.pop(refs, ref)
-    names = Map.delete(names, name)
-    {:noreply, {names, refs}}
-  end
-
-  @impl true
-  def handle_info(_msg, state) do
-    {:noreply, state}
+  # Helper functions
+  defp update_state(state, square = %Square{}) do
+    Enum.map(state, fn e ->
+      if e.x == square.x && e.y == square.y do
+        %{e | player: square.player}
+      else
+        e
+      end
+    end)
   end
 end
