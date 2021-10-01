@@ -11,7 +11,6 @@ defmodule TestRegistry do
 
   @impl true
   def handle_cast({:take_turn, square = %Square{}}, state) do
-    IO.inspect(square)
     new_state = update_state(state, square)
     {:noreply, new_state}
   end
@@ -19,6 +18,11 @@ defmodule TestRegistry do
   @impl true
   def handle_call({:get_turn, player}, _from, state) do
     {:reply, Enum.filter(state, fn x -> x.player == player end), state}
+  end
+
+  @impl true
+  def handle_call({:maybe_winner, player}, _from, state) do
+    {:reply, GameEngine.is_winner(state, player), state}
   end
 
   # Client
@@ -34,6 +38,10 @@ defmodule TestRegistry do
           :ok
   def take_turn(pid, %Square{} = square) do
     GenServer.cast(pid, {:take_turn, square})
+  end
+
+  def maybe_winner(pid, player) do
+    GenServer.cast(pid, {:maybe_winner, player})
   end
 
   # Helper functions
