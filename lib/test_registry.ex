@@ -1,6 +1,6 @@
 defmodule TestRegistry do
   use GenServer
-  alias TicTacToe.{GridFactory, Entities.Square}
+  alias TicTacToe.{GridFactory, Entities.Square, GameEngine}
 
   # Server
   @impl true
@@ -11,6 +11,7 @@ defmodule TestRegistry do
 
   @impl true
   def handle_cast({:take_turn, square = %Square{}}, state) do
+    IO.inspect(square)
     new_state = update_state(state, square)
     {:noreply, new_state}
   end
@@ -21,16 +22,18 @@ defmodule TestRegistry do
   end
 
   # Client
-  def start_link(opts) do
+  def start_link(opts = []) do
     GenServer.start_link(__MODULE__, :ok, opts)
   end
 
-  def get_turn(server, player) do
-    GenServer.call(server, {:get_turn, player})
+  def get_turn(pid, player) do
+    GenServer.call(pid, {:get_turn, player})
   end
 
-  def take_turn(server, %Square{} = square) do
-    GenServer.cast(server, {:take_turn, square})
+  @spec take_turn(atom | pid | {atom, any} | {:via, atom, any}, TicTacToe.Entities.Square.t()) ::
+          :ok
+  def take_turn(pid, %Square{} = square) do
+    GenServer.cast(pid, {:take_turn, square})
   end
 
   # Helper functions
