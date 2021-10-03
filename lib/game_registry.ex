@@ -30,7 +30,12 @@ defmodule TicTacToe.GameRegistry do
   end
 
   def take_turn(pid, %Square{} = square) do
-    GenServer.cast(pid, {:take_turn, square})
+    if GameEngine.is_valid_player(square.player) do
+      GenServer.cast(pid, {:take_turn, square})
+    else
+      {:error, "Player must be 1 or 2"}
+    end
+
   end
 
   def maybe_winner(pid, player) do
