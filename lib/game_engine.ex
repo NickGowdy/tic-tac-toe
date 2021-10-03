@@ -3,7 +3,7 @@ defmodule TicTacToe.GameEngine do
 
   @spec is_valid_player(number) :: boolean()
   def is_valid_player(player) do
-    player === 1 || player === 2
+    player == 1 || player == 2
   end
 
   @doc ~S"""
@@ -39,7 +39,7 @@ defmodule TicTacToe.GameEngine do
     maybe_vertical_winner =
       dimensions
       |> Enum.map(fn d ->
-        matches = Enum.count(grid, fn square -> square.x === d end) == 3
+        matches = Enum.count(grid, fn square -> square.x == d end) == 3
 
         case matches do
           true -> true
@@ -51,7 +51,7 @@ defmodule TicTacToe.GameEngine do
     maybe_horizontal_winner =
       dimensions
       |> Enum.map(fn d ->
-        matches = Enum.count(grid, fn square -> square.y === d end) == 3
+        matches = Enum.count(grid, fn square -> square.y == d end) == 3
 
         case matches do
           true -> true
@@ -80,7 +80,7 @@ defmodule TicTacToe.GameEngine do
         end
       end)
 
-    selected_squares === 3
+    selected_squares == 3
   end
 
   defp maybe_diagonal_winner_two(dimensions, grid) do
@@ -95,6 +95,6 @@ defmodule TicTacToe.GameEngine do
         end
       end)
 
-    selected_squares === -1
+    selected_squares == -1
   end
 end
