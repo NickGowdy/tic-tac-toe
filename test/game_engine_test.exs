@@ -1,5 +1,6 @@
 defmodule GridServiceTest do
   use ExUnit.Case, async: true
+  doctest TicTacToe.GameEngine
 
   alias TicTacToe.{GridFactory, GameEngine}
   alias TicTacToe.Entities.Square
@@ -100,4 +101,18 @@ defmodule GridServiceTest do
       assert result_player_two == false
     end
   end
+
+  describe "Logic to check if correct player is taking his turn" do
+    test "Happy path where turns are taken in correct order" do
+      grid = [
+        %TicTacToe.Entities.Square{player: 1, x: 0, y: 0},
+      ]
+
+      result_player_one = GameEngine.is_winner(grid, 1)
+      assert result_player_one == false
+
+    end
+
+  end
+
 end

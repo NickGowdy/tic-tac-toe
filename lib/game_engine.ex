@@ -6,7 +6,21 @@ defmodule TicTacToe.GameEngine do
     player === 1 || player === 2
   end
 
+  @doc ~S"""
+  Calculates if the player which is provided as a parameter is the winner
+
+  ## Examples
+
+      iex> grid = [
+      ...>  %TicTacToe.Entities.Square{player: 1, x: 0, y: 0},
+      ...>  %TicTacToe.Entities.Square{player: 1, x: 0, y: 1},
+      ...>  %TicTacToe.Entities.Square{player: 1, x: 0, y: 2}]
+      iex> TicTacToe.GameEngine.is_winner(grid, 1)
+      true
+  """
+  @spec is_winner(list(%Square{}), integer()) :: boolean
   def is_winner([%Square{} | _rest] = grid, player) do
+
     filtered_grid = Enum.filter(grid, fn square -> square.player == player end)
 
     case Enum.count(filtered_grid) < 3 do

@@ -35,7 +35,6 @@ defmodule TicTacToe.GameRegistry do
     else
       {:error, "Player must be 1 or 2"}
     end
-
   end
 
   def maybe_winner(pid, player) do
