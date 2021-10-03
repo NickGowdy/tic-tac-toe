@@ -20,11 +20,11 @@ This module utilises GenServer to maintain a game of Tic-tac-toe for a process w
 
 The beginning state in the GenServer is the Tic-tac-toe grid which is built with `GridFactory.build()` this grid is maintained for the process in GenServer. Each grid is represented by a square with an x and y co-ordinate as shown below:
 
-![Starting grid](./Designs/grid-positions.png "Starting grid")
+![Starting grid](./designs/grid-positions.png "Starting grid")
 
 The game engine is then able to calculate if there is a winner. It loops through the grid values and check for every possible winning combination for that player as shown in the image below:
 
-![Game engine](./Designs/game-engine.png "Game engine")
+![Game engine](./designs/game-engine.png "Game engine")
 
 
 
