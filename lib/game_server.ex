@@ -1,4 +1,4 @@
-defmodule TicTacToe.GameRegistry do
+defmodule TicTacToe.GameServer do
   use GenServer
   alias TicTacToe.{GridFactory, Entities.Square, GameEngine}
 
