@@ -20,7 +20,6 @@ defmodule TicTacToe.GameEngine do
   """
   @spec is_winner(list(%Square{}), integer()) :: boolean
   def is_winner([%Square{} | _rest] = grid, player) do
-
     filtered_grid = Enum.filter(grid, fn square -> square.player == player end)
 
     case Enum.count(filtered_grid) < 3 do
@@ -38,26 +37,12 @@ defmodule TicTacToe.GameEngine do
 
     maybe_vertical_winner =
       dimensions
-      |> Enum.map(fn d ->
-        matches = Enum.count(grid, fn square -> square.x == d end) == 3
-
-        case matches do
-          true -> true
-          false -> false
-        end
-      end)
+      |> Enum.map(fn d -> Enum.count(grid, fn square -> square.x == d end) == 3 end)
       |> Enum.any?(fn match -> match == true end)
 
     maybe_horizontal_winner =
       dimensions
-      |> Enum.map(fn d ->
-        matches = Enum.count(grid, fn square -> square.y == d end) == 3
-
-        case matches do
-          true -> true
-          false -> false
-        end
-      end)
+      |> Enum.map(fn d -> Enum.count(grid, fn square -> square.y == d end) == 3 end)
       |> Enum.any?(fn match -> match == true end)
 
     maybe_diagonal_winner_one = maybe_diagonal_winner_one(dimensions, grid)
