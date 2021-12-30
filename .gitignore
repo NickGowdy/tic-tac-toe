@@ -24,3 +24,18 @@ tictactoe-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+# Ignore node_modules for phoenix application
+/node_modules/
+
+# Not sure about these other folders, ignore for now
+/assets/node_modules/
+
+/installer/_build/
+/installer/assets/
+/installer/deps/
+/installer/doc/
+/installer/phx_new-*.ez
+/integration_test/_build/
+/integration_test/deps/
+phoenix-*.ez
