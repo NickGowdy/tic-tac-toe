@@ -23,7 +23,7 @@ defmodule TicTacToe.Web.Router do
   scope "/api", TicTacToe.Web do
     pipe_through :api
 
-    resources "/game", GameController, only: [:index]
+    resources "/game", GameController, only: [:index, :update]
   end
 
   # Other scopes may use custom stacks.
