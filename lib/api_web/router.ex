@@ -1,6 +1,7 @@
 defmodule TicTacToe.Web.Router do
   use TicTacToe.Web, :router
 
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -17,6 +18,12 @@ defmodule TicTacToe.Web.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+  end
+
+  scope "/api", TicTacToe.Web do
+    pipe_through :api
+
+    resources "/game", GameController, only: [:index, :update]
   end
 
   # Other scopes may use custom stacks.
