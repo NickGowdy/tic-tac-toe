@@ -8,3 +8,13 @@ defmodule TicTacToe.Entities.Square do
           player: non_neg_integer()
         }
 end
+
+defmodule TicTacToe.Entities.Game do
+  @derive Jason.Encoder
+  defstruct [:guid, :grid]
+
+  @type t :: %__MODULE__{
+    guid: UUID.uuid1(),
+    grid: list(%TicTacToe.Entities.Square{})
+  }
+end

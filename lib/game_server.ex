@@ -1,12 +1,12 @@
 defmodule TicTacToe.GameServer do
   use GenServer
-  alias TicTacToe.{GridFactory, Entities.Square, GameEngine}
+  alias TicTacToe.{GridFactory, Entities.Square, Entities.Game, GameEngine}
 
   # Server
   @impl true
   def init(:ok) do
-    grid = GridFactory.build()
-    {:ok, grid}
+    game = %Game{grid: GridFactory.build(), guid: UUID.uuid1()}
+    {:ok, game}
   end
 
   @impl true
