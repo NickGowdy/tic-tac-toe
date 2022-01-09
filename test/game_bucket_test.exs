@@ -8,8 +8,9 @@ defmodule TicTacToe.GameBucketTest do
     %{bucket: bucket}
   end
 
-  test "Stores value by key", %{bucket: bucket}  do
+  test "Stores value by key", %{bucket: bucket} do
     pid = :c.pid(0, 250, 0)
+    test = :erlang.pid_to_list(pid) |> List.last() |> IO.inspect()
     guid = UUID.uuid1()
     assert GameBucket.get(bucket, GUID: guid) == nil
 
