@@ -5,7 +5,7 @@ defmodule TicTacToe.GameBucket do
     Starts the game bucket, used for storing GUIDS for games in progress
   """
   def start_link(_opts) do
-  Agent.start_link(fn -> %{} end)
+    Agent.start_link(fn -> %{} end)
   end
 
   @doc """
@@ -14,7 +14,6 @@ defmodule TicTacToe.GameBucket do
   def get(bucket, key) do
     Agent.get(bucket, &Map.get(&1, key))
   end
-
 
   @doc """
     Puts value from the game bucket
