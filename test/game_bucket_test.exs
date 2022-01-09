@@ -4,7 +4,7 @@ defmodule TicTacToe.GameBucketTest do
   alias TicTacToe.{GameBucket}
 
   setup do
-    {:ok, bucket} = GameBucket.start_link([]) |> IO.inspect(label: "This is the game bucket")
+    {:ok, bucket} = GameBucket.start_link([])
     %{bucket: bucket}
   end
 
