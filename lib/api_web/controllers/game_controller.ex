@@ -5,7 +5,7 @@ defmodule TicTacToe.Web.GameController do
 
   def index(conn, _params) do
     grid = GameService.start_game()
-    json(conn, %{grid: grid})
+    json(conn, grid)
   end
 
   def update(conn, _params) do
