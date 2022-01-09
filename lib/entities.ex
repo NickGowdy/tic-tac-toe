@@ -14,7 +14,7 @@ defmodule TicTacToe.Entities.Game do
   defstruct [:guid, :grid]
 
   @type t :: %__MODULE__{
-    guid: UUID.uuid1(),
-    grid: list(%TicTacToe.Entities.Square{})
-  }
+          guid: UUID.uuid1(),
+          grid: list(%TicTacToe.Entities.Square{})
+        }
 end

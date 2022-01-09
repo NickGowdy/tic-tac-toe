@@ -1,5 +1,4 @@
 defmodule TicTacToe.GameService do
-
   alias TicTacToe.{GameServer}
 
   def start_game() do
