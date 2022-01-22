@@ -8,6 +8,8 @@ defmodule TicTacToe.Web.GameController do
     json(conn, grid)
   end
 
+  # TODO - get specific game using ID
+
   def update(conn, _params) do
     json(conn, %{value: "Value updated."})
   end
