@@ -20,9 +20,18 @@ defmodule TicTacToe.GameServer do
     {:reply, Enum.filter(state, fn x -> x.player == player end), state}
   end
 
+  @impl true
+  def handle_call(:get_grid, _from, state) do
+    {:reply, state, state}
+  end
+
   # Client
   def start_link(opts = []) do
     GenServer.start_link(__MODULE__, :ok, opts)
+  end
+
+  def get_grid(pid) do
+    GenServer.call(pid, :get_grid)
   end
 
   def get_turn(pid, player) do

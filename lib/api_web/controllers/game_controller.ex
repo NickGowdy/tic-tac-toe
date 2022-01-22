@@ -1,8 +1,11 @@
 defmodule TicTacToe.Web.GameController do
   use TicTacToe.Web, :controller
 
+  alias TicTacToe.{GameService}
+
   def index(conn, _params) do
-    json(conn, %{value: "Hello... World."})
+    grid = GameService.start_game()
+    json(conn, grid)
   end
 
   def update(conn, _params) do
