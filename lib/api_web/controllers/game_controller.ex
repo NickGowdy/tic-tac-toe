@@ -3,8 +3,13 @@ defmodule TicTacToe.Web.GameController do
 
   alias TicTacToe.{GameService}
 
-  def index(conn, _params) do
+  def new(conn, _params) do
     grid = GameService.start_game()
+    json(conn, grid)
+  end
+
+  def show(conn, %{"id" => id}) do
+    grid = GameService.get_game(id)
     json(conn, grid)
   end
 
