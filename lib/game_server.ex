@@ -5,8 +5,16 @@ defmodule TicTacToe.GameServer do
   # Server
   @impl true
   def init(:ok) do
+    game_in_progress_id = UUID.uuid1()
     grid = GridFactory.build()
-    {:ok, grid}
+
+    :ets.new(:game_in_progress, [:named_table])
+    :ets.insert(:game_in_progress, {game_in_progress_id, grid})
+
+    [{id, [test]}] =
+      :ets.lookup(:game_in_progress, game_in_progress_id) |> IO.inspect(label: "get grid")
+
+    {:ok, id}
   end
 
   @impl true
