@@ -1,25 +1,21 @@
 defmodule TicTacToe.GameService do
-  alias TicTacToe.{GameServer}
+  alias TicTacToe.GameServer
+  alias TicTacToe.Entities.Game
 
   def start_game() do
     {:ok, pid} = GameServer.start_link([])
-
-    grid = GameServer.get_grid(pid)
-    id = convert_pid_to_id(pid)
-    %{id: id, grid: grid}
+    %Game{id: game_id, grid: tail} = GameServer.get_grid(pid)
+    GameServer.link_game_id_pid(pid, game_id)
+    %Game{id: game_id, grid: tail}
   end
 
   def get_game(id) do
-    pid = convert_id_to_pid(id)
-    grid = GameServer.get_grid(pid)
-    grid
+    GameServer.get_pid(id)
+      |> map_grid()
   end
 
-  defp convert_pid_to_id(pid) do
-    :erlang.pid_to_list(pid) |> Enum.join() |> String.to_integer()
-  end
-
-  defp convert_id_to_pid(id) do
-      String.split(id, "") |> :erlang.list_to_pid()
+  defp map_grid(pid) do
+    %Game{id: game_id, grid: tail} = GameServer.get_grid(pid)
+    %Game{id: game_id, grid: tail}
   end
 end

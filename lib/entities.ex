@@ -11,10 +11,10 @@ end
 
 defmodule TicTacToe.Entities.Game do
   @derive Jason.Encoder
-  defstruct [:guid, :grid]
+  defstruct [:id, :grid]
 
   @type t :: %__MODULE__{
-          guid: UUID.uuid1(),
+          id: UUID,
           grid: list(%TicTacToe.Entities.Square{})
         }
 end
