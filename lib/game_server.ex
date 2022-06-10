@@ -19,10 +19,7 @@ defmodule TicTacToe.GameServer do
 
   @impl true
   def handle_cast({:take_turn, square}, state) do
-    IO.inspect("Trying to take turn")
-    IO.inspect(square, label: "@@@@@@")
-    IO.inspect(state, label: "!!!!!")
-    new_state = update_state(state, square)
+    new_state = update_state(state, square) |> IO.inspect(label: "This is the new state.......")
     {:noreply, new_state}
   end
 
@@ -42,7 +39,6 @@ defmodule TicTacToe.GameServer do
   end
 
   def get_grid(pid) do
-    IO.inspect(:get_grid)
     GenServer.call(pid, :get_grid)
   end
 
@@ -60,6 +56,9 @@ defmodule TicTacToe.GameServer do
   # end
 
   def take_turn(pid, square = %{"player" => player, "x" => _x, "y" => _y}) do
+    IO.inspect("take_turn")
+    IO.inspect(player, label: "This is the player...")
+
     if GameEngine.is_valid_player(player) do
       IO.inspect("Trying to talk to genserver....")
       GenServer.cast(pid, {:take_turn, square})
@@ -74,14 +73,20 @@ defmodule TicTacToe.GameServer do
   # end
 
   # Helper functions
-  defp update_state(state = %{grid: [head| tail]}, _square = %{"player" => player, "x" => x, "y" => y}) do
-    IO.inspect(state, label: "This is my state.....")
-    Enum.map(state, fn e ->
-      if e.x == x && e.y == y do
-        %{e | player: player}
-      else
-        e
-      end
-    end)
+  defp update_state(
+         state = %Game{id: game_id, grid: grid},
+         _square = %{"player" => player, "x" => x, "y" => y}
+       ) do
+
+    updated_grid =
+      Enum.map(grid, fn e ->
+        if e.x == x && e.y == y do
+          %{e | player: player}
+        else
+          e
+        end
+      end)
+
+    %Game{id: game_id, grid: updated_grid}
   end
 end
