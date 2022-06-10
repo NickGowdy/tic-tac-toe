@@ -23,11 +23,6 @@ defmodule TicTacToe.GameServer do
     {:noreply, new_state}
   end
 
-  # @impl true
-  # def handle_call({:get_turn, player}, _from, state) do
-  #   {:reply, Enum.filter(state, fn x -> x.player == player end), state}
-  # end
-
   @impl true
   def handle_call(:get_grid, _from, state) do
     {:reply, state, state}
@@ -51,19 +46,13 @@ defmodule TicTacToe.GameServer do
     :ets.insert(:pid_reference, {game_id, pid})
   end
 
-  # def get_turn(pid, player) do
-  #   GenServer.call(pid, {:get_turn, player})
-  # end
-
   def take_turn(pid, square = %{"player" => player, "x" => _x, "y" => _y}) do
-    IO.inspect("take_turn")
-    IO.inspect(player, label: "This is the player...")
+    case GameEngine.is_valid_player(player) do
+      true ->
+        GenServer.cast(pid, {:take_turn, square})
 
-    if GameEngine.is_valid_player(player) do
-      IO.inspect("Trying to talk to genserver....")
-      GenServer.cast(pid, {:take_turn, square})
-    else
-      {:error, "Player must be 1 or 2"}
+      false ->
+        {:error, "Player must be 1 or 2"}
     end
   end
 
@@ -74,10 +63,9 @@ defmodule TicTacToe.GameServer do
 
   # Helper functions
   defp update_state(
-         state = %Game{id: game_id, grid: grid},
+         _state = %Game{id: game_id, grid: grid},
          _square = %{"player" => player, "x" => x, "y" => y}
        ) do
-
     updated_grid =
       Enum.map(grid, fn e ->
         if e.x == x && e.y == y do
