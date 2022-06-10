@@ -8,8 +8,13 @@ defmodule TicTacToe.Web.GameController do
   end
 
   def show(conn, %{"id" => id}) do
-    grid = GameService.get_game(id)
-    json(conn, grid)
+    case GameService.get_game(id) do
+      %{id: _game_id, grid: grid} -> json(conn, grid)
+      {:error, msg} ->
+        conn
+          |> put_status(500)
+          |> render(msg)
+    end
   end
 
   def update(conn = %{body_params: body_params}, %{"id" => id}) do
