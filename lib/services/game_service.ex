@@ -15,14 +15,15 @@ defmodule TicTacToe.GameService do
   end
 
   def update_game(id, square) do
-    pid = GameServer.get_pid(id)
+    case GameServer.get_pid(id) do
+      {:ok, pid} ->
+        case GameServer.take_turn(pid, square) do
+          :ok -> map_grid(pid)
+          {:error, msg} -> {:error, msg}
+        end
 
-    case GameServer.take_turn(pid, square) do
-      :ok ->
-        map_grid(pid)
-
-      {:error, msg} ->
-        msg
+      :error ->
+        {:error, "Could not retrieve game with id: #{id}"}
     end
   end
 

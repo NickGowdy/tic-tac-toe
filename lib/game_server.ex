@@ -38,8 +38,10 @@ defmodule TicTacToe.GameServer do
   end
 
   def get_pid(game_id) do
-    [{_, pid}] = :ets.lookup(:pid_reference, game_id)
-    pid
+    case :ets.lookup(:pid_reference, game_id) do
+      [{_, pid}] -> {:ok, pid}
+      [] -> :error
+    end
   end
 
   def link_game_id_pid(pid, game_id) do
@@ -56,10 +58,13 @@ defmodule TicTacToe.GameServer do
     end
   end
 
-  # def maybe_winner(pid, player) do
-  #   GenServer.call(pid, {:get_turn, player})
-  #   |> GameEngine.is_winner(player)
-  # end
+  def maybe_winner(pid, player) do
+    IO.inspect("maybe_winner")
+
+    GenServer.call(pid, :get_grid)
+    |> IO.inspect(label: "Getting state before checking is winner")
+    |> GameEngine.is_winner(player)
+  end
 
   # Helper functions
   defp update_state(
