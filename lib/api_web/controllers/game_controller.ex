@@ -8,13 +8,14 @@ defmodule TicTacToe.Web.GameController do
   end
 
   def show(conn, %{"id" => id}) do
+    IO.inspect(id)
     grid = GameService.get_game(id)
     json(conn, grid)
   end
 
   # TODO - get specific game using ID
 
-  def update(conn, _params) do
-    json(conn, %{value: "Value updated."})
+  def update(conn, %{"id" => id, "square" => square}) do
+   json(conn, %{value: square.x})
   end
 end
