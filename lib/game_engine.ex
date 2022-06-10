@@ -3,7 +3,6 @@ defmodule TicTacToe.GameEngine do
 
   @spec is_valid_player(number) :: boolean()
   def is_valid_player(player) do
-    IO.inspect(player, label: "I am player.....")
     player == 1 || player == 2
   end
 

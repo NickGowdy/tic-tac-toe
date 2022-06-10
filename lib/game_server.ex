@@ -18,7 +18,10 @@ defmodule TicTacToe.GameServer do
   end
 
   @impl true
-  def handle_cast({:take_turn, square = %Square{}}, state) do
+  def handle_cast({:take_turn, square}, state) do
+    IO.inspect("Trying to take turn")
+    IO.inspect(square, label: "@@@@@@")
+    IO.inspect(state, label: "!!!!!")
     new_state = update_state(state, square)
     {:noreply, new_state}
   end
@@ -42,7 +45,6 @@ defmodule TicTacToe.GameServer do
     IO.inspect(:get_grid)
     GenServer.call(pid, :get_grid)
   end
-
 
   def get_pid(game_id) do
     [{_, pid}] = :ets.lookup(:pid_reference, game_id)
@@ -72,10 +74,11 @@ defmodule TicTacToe.GameServer do
   # end
 
   # Helper functions
-  defp update_state(state, square = %Square{}) do
+  defp update_state(state = %{grid: [head| tail]}, _square = %{"player" => player, "x" => x, "y" => y}) do
+    IO.inspect(state, label: "This is my state.....")
     Enum.map(state, fn e ->
-      if e.x == square.x && e.y == square.y do
-        %{e | player: square.player}
+      if e.x == x && e.y == y do
+        %{e | player: player}
       else
         e
       end
