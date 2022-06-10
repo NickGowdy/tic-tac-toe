@@ -16,8 +16,14 @@ defmodule TicTacToe.GameService do
 
   def update_game(id, square) do
     pid = GameServer.get_pid(id)
-    GameServer.take_turn(pid, square)
-    map_grid(pid)
+
+    case GameServer.take_turn(pid, square) do
+      :ok ->
+        map_grid(pid)
+
+      {:error, msg} ->
+        msg
+    end
   end
 
   defp map_grid(pid) do
