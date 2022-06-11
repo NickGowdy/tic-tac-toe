@@ -2,7 +2,7 @@ defmodule TicTacToe.GameServer do
   use GenServer
   alias TicTacToe.{Factory, Entities.Square, Entities.Game, GameEngine}
 
-  # Server
+  # ~~~~~ Server ~~~~~
   @impl true
   def init(:ok) do
     game_id = UUID.uuid1()
@@ -12,14 +12,28 @@ defmodule TicTacToe.GameServer do
       :ets.new(:pid_reference, [:public, :named_table])
     end
 
-    game = %Game{id: game_id, grid: grid}
+    game = %Game{id: game_id, grid: grid, winner: nil}
 
     {:ok, game}
   end
 
   @impl true
-  def handle_cast({:take_turn, square}, state) do
-    new_state = update_state(state, square) |> IO.inspect(label: "This is the new state.......")
+  def handle_cast(
+        {:take_turn, _square = %{"player" => player, "x" => x, "y" => y}},
+        _state = %Game{id: game_id, grid: grid}
+      ) do
+
+    updated_grid =
+      Enum.map(grid, fn e ->
+        if e.x == x && e.y == y do
+          %{e | player: player}
+        else
+          e
+        end
+      end)
+
+    new_state = %Game{id: game_id, grid: updated_grid, winner: nil}
+
     {:noreply, new_state}
   end
 
@@ -28,7 +42,9 @@ defmodule TicTacToe.GameServer do
     {:reply, state, state}
   end
 
-  # Client
+  # ~~~~~ End of server ~~~~~
+
+  # ~~~~~ Client ~~~~~
   def start_link(opts = []) do
     GenServer.start_link(__MODULE__, :ok, opts)
   end
@@ -58,28 +74,23 @@ defmodule TicTacToe.GameServer do
     end
   end
 
-  def maybe_winner(pid, player) do
-    IO.inspect("maybe_winner")
+  # def maybe_winner(pid) do
+  #   IO.inspect("maybe_winner")
 
-    GenServer.call(pid, :get_grid)
-    |> IO.inspect(label: "Getting state before checking is winner")
-    |> GameEngine.is_winner(player)
-  end
+  #   player_one_is_winner =
+  #     GenServer.call(pid, :get_grid)
+  #     |> IO.inspect(label: "Getting state before checking is winner")
+  #     |> GameEngine.is_winner(1)
 
-  # Helper functions
-  defp update_state(
-         _state = %Game{id: game_id, grid: grid},
-         _square = %{"player" => player, "x" => x, "y" => y}
-       ) do
-    updated_grid =
-      Enum.map(grid, fn e ->
-        if e.x == x && e.y == y do
-          %{e | player: player}
-        else
-          e
-        end
-      end)
+  #   player_two_is_winner =
+  #     GenServer.call(pid, :get_grid)
+  #     |> IO.inspect(label: "Getting state before checking is winner")
+  #     |> GameEngine.is_winner(2)
 
-    %Game{id: game_id, grid: updated_grid}
-  end
+  #   case player_one_is_winner do
+  #     true ->
+  #       GenServer.call(pid, :get_grid)
+  #       |> up
+  #   end
+  # end
 end
