@@ -17,8 +17,8 @@ defmodule TicTacToe.GameService do
   def update_game(id, square) do
     case GameServer.get_pid(id) do
       {:ok, pid} ->
-        case GameServer.take_turn(pid, square) do
-          :ok -> map_grid(pid)
+        case GameServer.take_turn(pid, square)   do
+          :ok -> GameServer.get_grid(pid)
           {:error, msg} -> {:error, msg}
         end
 
@@ -28,7 +28,7 @@ defmodule TicTacToe.GameService do
   end
 
   defp map_grid(pid) do
-    %Game{id: game_id, grid: tail} = GameServer.get_grid(pid)
-    %Game{id: game_id, grid: tail}
+    %Game{id: game_id, grid: tail, winner: winner} = GameServer.get_grid(pid)
+    %Game{id: game_id, grid: tail, winner: winner}
   end
 end

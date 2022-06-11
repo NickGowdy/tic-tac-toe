@@ -22,7 +22,6 @@ defmodule TicTacToe.GameServer do
         {:take_turn, _square = %{"player" => player, "x" => x, "y" => y}},
         _state = %Game{id: game_id, grid: grid}
       ) do
-
     updated_grid =
       Enum.map(grid, fn e ->
         if e.x == x && e.y == y do
@@ -32,9 +31,13 @@ defmodule TicTacToe.GameServer do
         end
       end)
 
-    new_state = %Game{id: game_id, grid: updated_grid, winner: nil}
+    case GameEngine.is_winner(updated_grid, player) do
+      true ->
+        {:noreply, %Game{id: game_id, grid: updated_grid, winner: player}}
 
-    {:noreply, new_state}
+      false ->
+        {:noreply, %Game{id: game_id, grid: updated_grid, winner: nil}}
+    end
   end
 
   @impl true
@@ -73,24 +76,4 @@ defmodule TicTacToe.GameServer do
         {:error, "Player must be 1 or 2"}
     end
   end
-
-  # def maybe_winner(pid) do
-  #   IO.inspect("maybe_winner")
-
-  #   player_one_is_winner =
-  #     GenServer.call(pid, :get_grid)
-  #     |> IO.inspect(label: "Getting state before checking is winner")
-  #     |> GameEngine.is_winner(1)
-
-  #   player_two_is_winner =
-  #     GenServer.call(pid, :get_grid)
-  #     |> IO.inspect(label: "Getting state before checking is winner")
-  #     |> GameEngine.is_winner(2)
-
-  #   case player_one_is_winner do
-  #     true ->
-  #       GenServer.call(pid, :get_grid)
-  #       |> up
-  #   end
-  # end
 end

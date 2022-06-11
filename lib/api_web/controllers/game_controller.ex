@@ -1,22 +1,20 @@
 defmodule TicTacToe.Web.GameController do
   use TicTacToe.Web, :controller
 
-  alias TicTacToe.{GameService}
+  alias TicTacToe.{GameService, Entities.Game}
 
   def new(conn, _params) do
     json(conn, GameService.start_game())
   end
 
   def show(conn, %{"id" => id}) do
-    %{id: _game_id, grid: grid} = GameService.get_game(id)
-
-    json(conn, grid)
+    json(conn, GameService.get_game(id))
   end
 
   def update(conn = %{body_params: body_params}, %{"id" => id}) do
     case GameService.update_game(id, body_params) do
-      %{id: _game_id, grid: grid} ->
-        json(conn, grid)
+      %Game{id: game_id, grid: grid, winner: winner} ->
+        json(conn, %Game{id: game_id, grid: grid, winner: winner} )
 
       {:error, msg} ->
         conn
