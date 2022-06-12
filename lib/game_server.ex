@@ -68,7 +68,6 @@ defmodule TicTacToe.GameServer do
   end
 
   def take_turn(pid, %Square{player: player} = square) do
-    IO.inspect(player, label: "This is my player....")
     case GameEngine.is_valid_player(player) do
       true ->
         GenServer.cast(pid, {:take_turn, square})

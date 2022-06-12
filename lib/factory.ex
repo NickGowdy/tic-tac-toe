@@ -1,5 +1,5 @@
 defmodule TicTacToe.Factory do
-  alias TicTacToe.Entities.{Square, Game}
+  alias TicTacToe.Entities.Square
 
   @spec build_grid :: list
   @doc """
@@ -13,15 +13,5 @@ defmodule TicTacToe.Factory do
         %Square{x: x, y: y, player: nil}
       end)
     end)
-  end
-
-  @doc """
-  Builds the game struct with UUID
-  """
-  def build_game(grid = [_ | _]) do
-    %Game{
-      grid: grid,
-      id: UUID.uuid1()
-    }
   end
 end
