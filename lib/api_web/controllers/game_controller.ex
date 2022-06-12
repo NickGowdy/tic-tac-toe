@@ -1,7 +1,7 @@
 defmodule TicTacToe.Web.GameController do
   use TicTacToe.Web, :controller
 
-  alias TicTacToe.{GameService, Entities.Game}
+  alias TicTacToe.{GameService, Entities.Game, Entities.Square}
 
   def new(conn, _params) do
     json(conn, GameService.start_game())
@@ -12,9 +12,11 @@ defmodule TicTacToe.Web.GameController do
   end
 
   def update(conn = %{body_params: body_params}, %{"id" => id}) do
-    case GameService.update_game(id, body_params) do
+    square = %Square{x: body_params["x"], y: body_params["y"], player: body_params["player"]}
+
+    case GameService.update_game(id, square) do
       %Game{id: game_id, grid: grid, winner: winner} ->
-        json(conn, %Game{id: game_id, grid: grid, winner: winner} )
+        json(conn, %Game{id: game_id, grid: grid, winner: winner})
 
       {:error, msg} ->
         conn

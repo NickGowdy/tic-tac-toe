@@ -19,7 +19,7 @@ defmodule TicTacToe.GameServer do
 
   @impl true
   def handle_cast(
-        {:take_turn, _square = %{"player" => player, "x" => x, "y" => y}},
+        {:take_turn, %Square{player: player, x: x, y: y}},
         _state = %Game{id: game_id, grid: grid}
       ) do
     updated_grid =
@@ -67,7 +67,7 @@ defmodule TicTacToe.GameServer do
     :ets.insert(:pid_reference, {game_id, pid})
   end
 
-  def take_turn(pid, square = %{"player" => player, "x" => _x, "y" => _y}) do
+  def take_turn(pid, %Square{player: player} = square) do
     case GameEngine.is_valid_player(player) do
       true ->
         GenServer.cast(pid, {:take_turn, square})
