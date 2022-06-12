@@ -14,6 +14,30 @@ iex> grid = [
 iex> TicTacToe.GameEngine.is_winner(grid, 1)
 true
 ```
+## Running the code
+
+To run the API simply use `iex -S mix phx.server` to start Phoenix. You can test the API with the following commands:
+
+```
+curl -X GET http://localhost:4000/api/game/new
+```
+
+This will return a GUID of the game in progress. To take a turn you can `PUT` like so:
+
+```
+curl -H 'Content-Type: application/json' -H 'Accept: application/json' -X PUT -d '{"x": 0,"y": 0,"player": 1}'  http://localhost:4000/api/game/<GUID>
+```
+
+Once there is a winner it will be shown in the payload:
+
+```
+{"grid":[
+{"player":1,"x":0,"y":0},{"player":null,"x":0,"y":1},{"player":null,"x":0,"y":2},{"player":1,"x":1,"y":0},{"player":null,"x":1,"y":1},{"player":null,"x":1,"y":2},{"player":1,"x":2,"y":0},{"player":null,"x":2,"y":1},{"player":null,"x":2,"y":2}],
+"id":"84c7475e-ea58-11ec-b992-acde48001122",
+"winner":1}
+```
+
+
 ## Design
 
 This module utilises GenServer to maintain a game of Tic-tac-toe for a process with OTP. Via this turns can be taken and retrieved for a player. 

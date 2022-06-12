@@ -12,7 +12,7 @@ defmodule TicTacToe.Web.GameController do
   end
 
   def update(conn = %{body_params: body_params}, %{"id" => id}) do
-    square = %Square{x: body_params["x"], y: body_params["y"], player: body_params["player"]}
+    square = %Square{x:  body_params["x"], y: body_params["y"], player: body_params["player"]}
 
     case GameService.update_game(id, square) do
       %Game{id: game_id, grid: grid, winner: winner} ->
