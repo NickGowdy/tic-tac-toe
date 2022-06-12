@@ -2,9 +2,7 @@ defmodule TicTacToe.GameEngine do
   alias TicTacToe.Entities.Square
 
   @spec is_valid_player(number) :: boolean()
-  def is_valid_player(player) when player === 1, do: true
-  def is_valid_player(player) when player === 2, do: true
-  def is_valid_player(player) when player === nil, do: false
+  def is_valid_player(player) , do: player in [1, 2]
 
   @doc ~S"""
   Calculates if the player which is provided as a parameter is the winner

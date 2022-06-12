@@ -1,7 +1,7 @@
 defmodule TicTacToe.GameServerTest do
   use ExUnit.Case, async: true
 
-  alias TicTacToe.Entities.Square
+  alias TicTacToe.Entities.{Square, Game}
 
   setup do
     %{pid: start_supervised!(TicTacToe.GameServer)}
@@ -14,7 +14,7 @@ defmodule TicTacToe.GameServerTest do
     TicTacToe.GameServer.take_turn(pid, %Square{x: 2, y: 2, player: 1})
     TicTacToe.GameServer.take_turn(pid, %Square{x: 2, y: 0, player: 1})
 
-    assert TicTacToe.GameServer.maybe_winner(pid, 1) == true
+    assert %Game{winner: 1} = TicTacToe.GameServer.get_grid(pid)
   end
 
   test "Only player 1 or 2 can take a turn", %{pid: pid} do
