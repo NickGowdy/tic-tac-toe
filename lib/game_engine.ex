@@ -38,14 +38,13 @@ defmodule TicTacToe.GameEngine do
 
   defp maybe_winner_x([%Square{} | _rest] = grid, dimensions) do
     dimensions
-    |> Enum.map(fn d -> Enum.count(grid, fn square -> square.x == d end) == 3 end)
-    |> Enum.any?(fn match -> match == true end)
+    |> Enum.any?(fn d -> Enum.count(grid, fn square -> square.x == d end) == 3 end)
   end
 
   defp maybe_winner_y([%Square{} | _rest] = grid, dimensions) do
     dimensions
-    |> Enum.map(fn d -> Enum.count(grid, fn square -> square.y == d end) == 3 end)
-    |> Enum.any?(fn match -> match == true end)
+    |> Enum.any?(fn d -> Enum.count(grid, fn square -> square.y == d end) == 3 end)
+
   end
 
   defp maybe_winner_x_y_1([%Square{} | _rest] = grid, dimensions) do
