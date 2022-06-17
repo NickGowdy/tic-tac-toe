@@ -10,6 +10,6 @@ defmodule TicTacToe.Factory do
 
     for x <- dimensions,
         y <- dimensions,
-        do: %Square{x: x, y: y, player: nil}
+        do: %Square{x: x, y: y, player: 0}
   end
 end
