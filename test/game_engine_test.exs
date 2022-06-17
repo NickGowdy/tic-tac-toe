@@ -13,8 +13,7 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 1, x: 0, y: 2}
       ]
 
-      result = GameEngine.winner(grid, 1)
-      assert result == true
+      assert GameEngine.winner(grid, 1) == true
     end
 
     test "Return false there is not a complete vertical combination" do
@@ -23,8 +22,7 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 1, x: 0, y: 1}
       ]
 
-      result = GameEngine.winner(grid, 1)
-      assert result == false
+      assert GameEngine.winner(grid, 1) == false
     end
 
     test "Return true when complete combination is horizontal" do
@@ -34,8 +32,7 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 1, x: 2, y: 0}
       ]
 
-      result = GameEngine.winner(grid, 1)
-      assert result == true
+      assert GameEngine.winner(grid, 1) == true
     end
 
     test "Return false there is not a complete horizontal combination" do
@@ -44,8 +41,7 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 1, x: 1, y: 0}
       ]
 
-      result = GameEngine.winner(grid, 1)
-      assert result == false
+      assert GameEngine.winner(grid, 1) == false
     end
 
     test "Return true when complete combination in diagonal 1" do
@@ -55,8 +51,7 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 1, x: 2, y: 2}
       ]
 
-      result = GameEngine.winner(grid, 1)
-      assert result == true
+      assert GameEngine.winner(grid, 1) == true
     end
 
     test "Return false when x and y not equal same value for diagonal 1" do
@@ -66,8 +61,7 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 1, x: 2, y: 2}
       ]
 
-      result = GameEngine.winner(grid, 1)
-      assert result == false
+      assert GameEngine.winner(grid, 1) == false
     end
 
     test "Return true when complete combination in diagonal 2" do
@@ -77,8 +71,7 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 1, x: 2, y: 0}
       ]
 
-      result = GameEngine.winner(grid, 1)
-      assert result == true
+      assert GameEngine.winner(grid, 1) == true
     end
 
     test "Return false as there is no winner" do
@@ -94,13 +87,9 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 2, x: 2, y: 0}
       ]
 
-      result_player_one = GameEngine.winner(grid, 1)
-      IO.inspect(result_player_one, label: "Result 1")
-      assert result_player_one == false
+      assert GameEngine.winner(grid, 1) == false
 
-      result_player_two = GameEngine.winner(grid, 2)
-      IO.inspect(result_player_one, label: "Result 2")
-      assert result_player_two == false
+      assert GameEngine.winner(grid, 2) == false
     end
   end
 
@@ -110,8 +99,7 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 1, x: 0, y: 0}
       ]
 
-      result_player_one = GameEngine.winner(grid, 1)
-      assert result_player_one == false
+      assert  GameEngine.winner(grid, 1) == false
     end
   end
 end
