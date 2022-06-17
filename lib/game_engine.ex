@@ -20,31 +20,26 @@ defmodule TicTacToe.GameEngine do
   def winner([%Square{} | _rest] = grid, player) do
     player_grid = Enum.filter(grid, fn square -> square.player == player end)
     winner_list = []
-    dimensions = Enum.to_list(0..2)
+    dimensions = [0, 1, 2]
 
-    case Enum.count(player_grid) < 3 do
-      true ->
-        false
-
-      false ->
-        winner_list
-        |> List.insert_at(0, maybe_winner_x([%Square{} | _rest] = player_grid, dimensions))
-        |> List.insert_at(0, maybe_winner_y([%Square{} | _rest] = player_grid, dimensions))
-        |> List.insert_at(0, maybe_winner_x_y_1([%Square{} | _rest] = player_grid, dimensions))
-        |> List.insert_at(0, maybe_winner_x_y_2([%Square{} | _rest] = player_grid, dimensions))
-        |> Enum.any?(fn x -> x == true end)
+    if Enum.count(grid, fn sqr -> sqr.player == player end) < 3 do
+      false
     end
+
+    winner_list
+    |> List.insert_at(0, maybe_winner_x([%Square{} | _rest] = player_grid, dimensions))
+    |> List.insert_at(0, maybe_winner_y([%Square{} | _rest] = player_grid, dimensions))
+    |> List.insert_at(0, maybe_winner_x_y_1([%Square{} | _rest] = player_grid, dimensions))
+    |> List.insert_at(0, maybe_winner_x_y_2([%Square{} | _rest] = player_grid, dimensions))
+    |> Enum.any?(fn x -> x == true end)
   end
 
   defp maybe_winner_x([%Square{} | _rest] = grid, dimensions) do
-    dimensions
-    |> Enum.any?(fn d -> Enum.count(grid, fn square -> square.x == d end) == 3 end)
+    Enum.any?(dimensions, fn d -> Enum.count(grid, fn square -> square.x == d end) == 3 end)
   end
 
   defp maybe_winner_y([%Square{} | _rest] = grid, dimensions) do
-    dimensions
-    |> Enum.any?(fn d -> Enum.count(grid, fn square -> square.y == d end) == 3 end)
-
+    Enum.any?(dimensions, fn d -> Enum.count(grid, fn square -> square.y == d end) == 3 end)
   end
 
   defp maybe_winner_x_y_1([%Square{} | _rest] = grid, dimensions) do
