@@ -11,7 +11,7 @@ iex> grid = [
 ...> %TicTacToe.Entities.Square{player: 1, x: 0, y: 0},
 ...> %TicTacToe.Entities.Square{player: 1, x: 0, y: 1},
 ...> %TicTacToe.Entities.Square{player: 1, x: 0, y: 2}]
-iex> TicTacToe.GameEngine.is_winner(grid, 1)
+iex> TicTacToe.GameEngine.winner(grid, 1)
 true
 ```
 ## Running the code

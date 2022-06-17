@@ -13,7 +13,7 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 1, x: 0, y: 2}
       ]
 
-      result = GameEngine.is_winner(grid, 1)
+      result = GameEngine.winner(grid, 1)
       assert result == true
     end
 
@@ -23,7 +23,7 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 1, x: 0, y: 1}
       ]
 
-      result = GameEngine.is_winner(grid, 1)
+      result = GameEngine.winner(grid, 1)
       assert result == false
     end
 
@@ -34,7 +34,7 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 1, x: 2, y: 0}
       ]
 
-      result = GameEngine.is_winner(grid, 1)
+      result = GameEngine.winner(grid, 1)
       assert result == true
     end
 
@@ -44,7 +44,7 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 1, x: 1, y: 0}
       ]
 
-      result = GameEngine.is_winner(grid, 1)
+      result = GameEngine.winner(grid, 1)
       assert result == false
     end
 
@@ -55,7 +55,7 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 1, x: 2, y: 2}
       ]
 
-      result = GameEngine.is_winner(grid, 1)
+      result = GameEngine.winner(grid, 1)
       assert result == true
     end
 
@@ -66,7 +66,7 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 1, x: 2, y: 2}
       ]
 
-      result = GameEngine.is_winner(grid, 1)
+      result = GameEngine.winner(grid, 1)
       assert result == false
     end
 
@@ -77,7 +77,7 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 1, x: 2, y: 0}
       ]
 
-      result = GameEngine.is_winner(grid, 1)
+      result = GameEngine.winner(grid, 1)
       assert result == true
     end
 
@@ -94,11 +94,11 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 2, x: 2, y: 0}
       ]
 
-      result_player_one = GameEngine.is_winner(grid, 1)
+      result_player_one = GameEngine.winner(grid, 1)
       IO.inspect(result_player_one, label: "Result 1")
       assert result_player_one == false
 
-      result_player_two = GameEngine.is_winner(grid, 2)
+      result_player_two = GameEngine.winner(grid, 2)
       IO.inspect(result_player_one, label: "Result 2")
       assert result_player_two == false
     end
@@ -110,7 +110,7 @@ defmodule GridServiceTest do
         %TicTacToe.Entities.Square{player: 1, x: 0, y: 0}
       ]
 
-      result_player_one = GameEngine.is_winner(grid, 1)
+      result_player_one = GameEngine.winner(grid, 1)
       assert result_player_one == false
     end
   end

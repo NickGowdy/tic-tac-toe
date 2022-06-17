@@ -31,7 +31,7 @@ defmodule TicTacToe.GameServer do
         end
       end)
 
-    case GameEngine.is_winner(updated_grid, player) do
+    case GameEngine.winner(updated_grid, player) do
       true ->
         {:noreply, %Game{id: game_id, grid: updated_grid, winner: player}}
 

@@ -13,13 +13,13 @@ defmodule TicTacToe.GameEngine do
       ...>  %TicTacToe.Entities.Square{player: 1, x: 0, y: 0},
       ...>  %TicTacToe.Entities.Square{player: 1, x: 0, y: 1},
       ...>  %TicTacToe.Entities.Square{player: 1, x: 0, y: 2}]
-      iex> TicTacToe.GameEngine.is_winner(grid, 1)
+      iex> TicTacToe.GameEngine.winner(grid, 1)
       true
   """
-  @spec is_winner(list(%Square{}), integer()) :: boolean
-  def is_winner([%Square{} | _rest] = grid, player) do
+  @spec winner(list(%Square{}), integer()) :: boolean
+  def winner([%Square{} | _rest] = grid, player) do
     player_grid = Enum.filter(grid, fn square -> square.player == player end)
-    is_winner_list = []
+    winner_list = []
     dimensions = Enum.to_list(0..2)
 
     case Enum.count(player_grid) < 3 do
@@ -27,7 +27,7 @@ defmodule TicTacToe.GameEngine do
         false
 
       false ->
-        is_winner_list
+        winner_list
         |> List.insert_at(0, maybe_winner_x([%Square{} | _rest] = player_grid, dimensions))
         |> List.insert_at(0, maybe_winner_y([%Square{} | _rest] = player_grid, dimensions))
         |> List.insert_at(0, maybe_winner_x_y_1([%Square{} | _rest] = player_grid, dimensions))
