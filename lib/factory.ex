@@ -6,12 +6,10 @@ defmodule TicTacToe.Factory do
   Builds a 3x3 grid for Tic Tac Toe
   """
   def build_grid() do
-    dimensions = Enum.to_list(0..2)
+    dimensions = [0, 1, 2]
 
-    Enum.flat_map(dimensions, fn x ->
-      Enum.map(dimensions, fn y ->
-        %Square{x: x, y: y, player: nil}
-      end)
-    end)
+    for x <- dimensions,
+        y <- dimensions,
+        do: %Square{x: x, y: y, player: nil}
   end
 end
