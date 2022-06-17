@@ -2,7 +2,7 @@ defmodule TicTacToe.GameEngine do
   alias TicTacToe.Entities.Square
 
   @spec is_valid_player(number) :: boolean()
-  def is_valid_player(player) , do: player in [1, 2]
+  def is_valid_player(player), do: player in [1, 2]
 
   @doc ~S"""
   Calculates if the player which is provided as a parameter is the winner
@@ -19,38 +19,36 @@ defmodule TicTacToe.GameEngine do
   @spec is_winner(list(%Square{}), integer()) :: boolean
   def is_winner([%Square{} | _rest] = grid, player) do
     filtered_grid = Enum.filter(grid, fn square -> square.player == player end)
+    winner_combinations_list = []
+    dimensions = Enum.to_list(0..2)
 
     case Enum.count(filtered_grid) < 3 do
       true ->
         false
 
       false ->
-        filtered_grid
-        |> check_grid()
+        winner_combinations_list
+        |> List.insert_at(0, maybe_vertical_winner([%Square{} | _rest] = grid, dimensions))
+        |> List.insert_at(0, maybe_horizontal_winner([%Square{} | _rest] = grid, dimensions))
+        |> List.insert_at(0, maybe_diagonal_winner_one([%Square{} | _rest] = grid, dimensions))
+        |> List.insert_at(0, maybe_diagonal_winner_two([%Square{} | _rest] = grid, dimensions))
+        |> Enum.any?(fn x -> x == true end)
     end
   end
 
-  defp check_grid([%Square{} | _rest] = grid) do
-    dimensions = Enum.to_list(0..2)
-
-    maybe_vertical_winner =
-      dimensions
-      |> Enum.map(fn d -> Enum.count(grid, fn square -> square.x == d end) == 3 end)
-      |> Enum.any?(fn match -> match == true end)
-
-    maybe_horizontal_winner =
-      dimensions
-      |> Enum.map(fn d -> Enum.count(grid, fn square -> square.y == d end) == 3 end)
-      |> Enum.any?(fn match -> match == true end)
-
-    maybe_diagonal_winner_one = maybe_diagonal_winner_one(dimensions, grid)
-    maybe_diagonal_winner_two = maybe_diagonal_winner_two(dimensions, grid)
-
-    maybe_vertical_winner == true or maybe_horizontal_winner == true or
-      maybe_diagonal_winner_one == true or maybe_diagonal_winner_two == true
+  defp maybe_vertical_winner([%Square{} | _rest] = grid, dimensions) do
+    dimensions
+    |> Enum.map(fn d -> Enum.count(grid, fn square -> square.x == d end) == 3 end)
+    |> Enum.any?(fn match -> match == true end)
   end
 
-  defp maybe_diagonal_winner_one(dimensions, grid) do
+  defp maybe_horizontal_winner([%Square{} | _rest] = grid, dimensions) do
+    dimensions
+    |> Enum.map(fn d -> Enum.count(grid, fn square -> square.y == d end) == 3 end)
+    |> Enum.any?(fn match -> match == true end)
+  end
+
+  defp maybe_diagonal_winner_one([%Square{} | _rest] = grid, dimensions) do
     {_, selected_squares} =
       dimensions
       |> Enum.map_reduce(0, fn _, acc ->
@@ -66,7 +64,7 @@ defmodule TicTacToe.GameEngine do
     selected_squares == 3
   end
 
-  defp maybe_diagonal_winner_two(dimensions, grid) do
+  defp maybe_diagonal_winner_two([%Square{} | _rest] = grid, dimensions) do
     {_, selected_squares} =
       dimensions
       |> Enum.map_reduce(2, fn d, acc ->
