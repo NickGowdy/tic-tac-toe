@@ -27,11 +27,12 @@ defmodule TicTacToe.GameEngine do
         false
 
       false ->
+
         winner_combinations_list
-        |> List.insert_at(0, maybe_vertical_winner([%Square{} | _rest] = grid, dimensions))
-        |> List.insert_at(0, maybe_horizontal_winner([%Square{} | _rest] = grid, dimensions))
-        |> List.insert_at(0, maybe_diagonal_winner_one([%Square{} | _rest] = grid, dimensions))
-        |> List.insert_at(0, maybe_diagonal_winner_two([%Square{} | _rest] = grid, dimensions))
+        |> List.insert_at(0, maybe_vertical_winner([%Square{} | _rest] = filtered_grid, dimensions))
+        |> List.insert_at(0, maybe_horizontal_winner([%Square{} | _rest] = filtered_grid, dimensions))
+        |> List.insert_at(0, maybe_diagonal_winner_one([%Square{} | _rest] = filtered_grid, dimensions))
+        |> List.insert_at(0, maybe_diagonal_winner_two([%Square{} | _rest] = filtered_grid, dimensions))
         |> Enum.any?(fn x -> x == true end)
     end
   end
