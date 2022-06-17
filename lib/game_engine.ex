@@ -18,63 +18,56 @@ defmodule TicTacToe.GameEngine do
   """
   @spec is_winner(list(%Square{}), integer()) :: boolean
   def is_winner([%Square{} | _rest] = grid, player) do
-    filtered_grid = Enum.filter(grid, fn square -> square.player == player end)
-    winner_combinations_list = []
+    player_grid = Enum.filter(grid, fn square -> square.player == player end)
+    is_winner_list = []
     dimensions = Enum.to_list(0..2)
 
-    case Enum.count(filtered_grid) < 3 do
+    case Enum.count(player_grid) < 3 do
       true ->
         false
 
       false ->
-
-        winner_combinations_list
-        |> List.insert_at(0, maybe_vertical_winner([%Square{} | _rest] = filtered_grid, dimensions))
-        |> List.insert_at(0, maybe_horizontal_winner([%Square{} | _rest] = filtered_grid, dimensions))
-        |> List.insert_at(0, maybe_diagonal_winner_one([%Square{} | _rest] = filtered_grid, dimensions))
-        |> List.insert_at(0, maybe_diagonal_winner_two([%Square{} | _rest] = filtered_grid, dimensions))
+        is_winner_list
+        |> List.insert_at(0, maybe_winner_x([%Square{} | _rest] = player_grid, dimensions))
+        |> List.insert_at(0, maybe_winner_y([%Square{} | _rest] = player_grid, dimensions))
+        |> List.insert_at(0, maybe_winner_x_y_1([%Square{} | _rest] = player_grid, dimensions))
+        |> List.insert_at(0, maybe_winner_x_y_2([%Square{} | _rest] = player_grid, dimensions))
         |> Enum.any?(fn x -> x == true end)
     end
   end
 
-  defp maybe_vertical_winner([%Square{} | _rest] = grid, dimensions) do
+  defp maybe_winner_x([%Square{} | _rest] = grid, dimensions) do
     dimensions
     |> Enum.map(fn d -> Enum.count(grid, fn square -> square.x == d end) == 3 end)
     |> Enum.any?(fn match -> match == true end)
   end
 
-  defp maybe_horizontal_winner([%Square{} | _rest] = grid, dimensions) do
+  defp maybe_winner_y([%Square{} | _rest] = grid, dimensions) do
     dimensions
     |> Enum.map(fn d -> Enum.count(grid, fn square -> square.y == d end) == 3 end)
     |> Enum.any?(fn match -> match == true end)
   end
 
-  defp maybe_diagonal_winner_one([%Square{} | _rest] = grid, dimensions) do
+  defp maybe_winner_x_y_1([%Square{} | _rest] = grid, dimensions) do
     {_, selected_squares} =
       dimensions
       |> Enum.map_reduce(0, fn _, acc ->
         maybe_square =
           Enum.find(grid, fn square -> square.x == acc and square.y == acc end) != nil
 
-        case maybe_square do
-          true -> {maybe_square, acc + 1}
-          false -> {maybe_square, acc}
-        end
+        if maybe_square == true, do: {maybe_square, acc + 1}, else: {maybe_square, acc}
       end)
 
     selected_squares == 3
   end
 
-  defp maybe_diagonal_winner_two([%Square{} | _rest] = grid, dimensions) do
+  defp maybe_winner_x_y_2([%Square{} | _rest] = grid, dimensions) do
     {_, selected_squares} =
       dimensions
       |> Enum.map_reduce(2, fn d, acc ->
         maybe_square = Enum.find(grid, fn square -> square.y == acc and square.x == d end) != nil
 
-        case maybe_square do
-          true -> {maybe_square, acc - 1}
-          false -> {maybe_square, acc}
-        end
+        if maybe_square == true, do: {maybe_square, acc - 1}, else: {maybe_square, acc}
       end)
 
     selected_squares == -1
